@@ -1,5 +1,7 @@
 #!/bin/bash
 
+resolvectl flush-caches
+
 S3NAME=`python3 -c "import configparser; config = configparser.ConfigParser(); config.read('./config.ini'); print(config['aws']['s3_bucket'])"`
 
 docker build -t cwj/test1:latest .

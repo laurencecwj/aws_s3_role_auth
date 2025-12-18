@@ -9,6 +9,7 @@ RUN cp /works/src.txt /etc/apt/sources.list \
 
 RUN go env -w GO111MODULE='on' && go env -w GOPROXY='https://goproxy.cn,direct' 
 
-COPY . /works
+ADD go.* *.go /works/
 RUN go build -o app .
+COPY config.ini /works/
 
