@@ -33,8 +33,12 @@ func main() {
 	var err error
 
 	if s3cfg.Iam {
-		log.Printf("Metadata Endpoint Env: %s", os.Getenv("AWS_EC2_METADATA_SERVICE_ENDPOINT"))
-		log.Printf("Metadata Disabled Env: %s", os.Getenv("AWS_EC2_METADATA_DISABLED"))
+		// log.Printf("Metadata Endpoint Env: %s", os.Getenv("AWS_EC2_METADATA_SERVICE_ENDPOINT"))
+		// log.Printf("Metadata Disabled Env: %s", os.Getenv("AWS_EC2_METADATA_DISABLED"))
+		os.Unsetenv("AWS_EC2_METADATA_SERVICE_ENDPOINT")
+		log.Println("Unset environment VAR: AWS_EC2_METADATA_SERVICE_ENDPOINT")
+		os.Unsetenv("AWS_EC2_METADATA_DISABLED")
+		log.Println("Unset environment VAR: AWS_EC2_METADATA_DISABLED")
 		creds := credentials.NewIAM("")
 		minioClient, err = minio.New(s3cfg.Endpoint, &minio.Options{
 			Creds:  creds,
