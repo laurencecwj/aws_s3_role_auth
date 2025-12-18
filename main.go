@@ -40,7 +40,9 @@ func main() {
 		os.Unsetenv("AWS_EC2_METADATA_DISABLED")
 		fmt.Println("Unset environment VAR: AWS_EC2_METADATA_DISABLED")
 
+		os.Stdin.Sync()
 		os.Stdout.Sync()
+		os.Stderr.Sync()
 
 		creds := credentials.NewIAM("")
 		minioClient, err = minio.New(s3cfg.Endpoint, &minio.Options{
