@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/go-ini/ini"
@@ -32,6 +33,8 @@ func main() {
 	var err error
 
 	if s3cfg.Iam {
+		log.Printf("Metadata Endpoint Env: %s", os.Getenv("AWS_EC2_METADATA_SERVICE_ENDPOINT"))
+		log.Printf("Metadata Disabled Env: %s", os.Getenv("AWS_EC2_METADATA_DISABLED"))
 		creds := credentials.NewIAM("")
 		minioClient, err = minio.New(s3cfg.Endpoint, &minio.Options{
 			Creds:  creds,
