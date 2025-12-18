@@ -130,5 +130,5 @@ func ReadBytes(s3cfg S3Config, minioClient *minio.Client) {
 	fileContent := string(fileBytes)
 
 	fmt.Printf("Successfully read file: %s length=%v\n", objectName, len(fileBytes))
-	fmt.Printf("File content:\n%s\n", fileContent)
+	fmt.Printf("\nFile content:\n%s\n", fileContent)
 }
