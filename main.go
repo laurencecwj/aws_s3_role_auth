@@ -33,12 +33,14 @@ func main() {
 			Creds:  creds,
 			Secure: true,
 		})
+		log.Printf("使用IAM初始化 S3 客户端: %#v", minioClient)
 	} else {
 		minioClient, err = minio.New(s3cfg.Endpoint, &minio.Options{
 			Creds:  credentials.NewStaticV4(s3cfg.AccessKeyId, s3cfg.SecretAccessKey, ""),
 			Region: s3cfg.Region,
 			Secure: true,
 		})
+		log.Printf("使用AccessKeyId及SecretAccessKey初始化 S3 客户端: %#v", minioClient)
 	}
 
 	if err != nil {
