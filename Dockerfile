@@ -12,9 +12,10 @@ RUN go env -w GO111MODULE='on' && go env -w GOPROXY='https://goproxy.cn,direct'
 ADD go.* *.go /works/
 RUN go build -o app .
 
-COPY main.py /works/
 RUN python3 -m venv /works/mypy && source /works/mypy/bin/activate \
-    && pip3 install minio --index-url https://mirrors.aliyun.com/pypi/simple 
+&& pip3 install minio --index-url https://mirrors.aliyun.com/pypi/simple 
+
+# COPY main.py /works/
 # RUN /works/mypy/bin/python main.py
 
 COPY . /works/
