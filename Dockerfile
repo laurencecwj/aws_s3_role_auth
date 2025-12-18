@@ -11,5 +11,6 @@ RUN go env -w GO111MODULE='on' && go env -w GOPROXY='https://goproxy.cn,direct'
 
 ADD go.* *.go /works/
 RUN go build -o app .
-COPY config.ini /works/
+
+COPY . /works/
 
