@@ -63,6 +63,7 @@ func main() {
 
 	WriteBytes(s3cfg, minioClient)
 	ReadBytes(s3cfg, minioClient)
+	DeleteFile(s3cfg, minioClient)
 }
 
 func ParseIni() S3Config {
