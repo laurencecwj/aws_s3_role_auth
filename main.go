@@ -21,6 +21,10 @@ type S3Config struct {
 	Bucket          string
 }
 
+var (
+	testfilename = "foo.bar"
+)
+
 func main() {
 	s3cfg := ParseIni()
 
@@ -97,7 +101,7 @@ func ParseIni() S3Config {
 
 func WriteBytes(s3cfg S3Config, minioClient *minio.Client) {
 	bucketName := s3cfg.Bucket
-	objectName := "foo.bar"
+	objectName := testfilename
 	contentType := "text/plain"
 	fileContent := "hello, world!"
 
@@ -114,7 +118,7 @@ func WriteBytes(s3cfg S3Config, minioClient *minio.Client) {
 
 func ReadBytes(s3cfg S3Config, minioClient *minio.Client) {
 	bucketName := s3cfg.Bucket
-	objectName := "foo.bar"
+	objectName := testfilename
 
 	object, err := minioClient.GetObject(context.Background(), bucketName, objectName, minio.GetObjectOptions{})
 	if err != nil {
@@ -131,4 +135,14 @@ func ReadBytes(s3cfg S3Config, minioClient *minio.Client) {
 
 	fmt.Printf("Successfully read file: %s length=%v\n", objectName, len(fileBytes))
 	fmt.Printf("\nFile content:\n%s\n", fileContent)
+}
+
+func DeleteFile(s3cfg S3Config, minioClient *minio.Client) {
+	bucketName := s3cfg.Bucket
+	objectName := testfilename
+	err := minioClient.RemoveObject(context.Background(), bucketName, objectName, minio.RemoveObjectOptions{})
+	if err != nil {
+		log.Fatalln("Error reading object content:", err)
+	}
+	fmt.Printf("\nFile deleted: %v\n", objectName)
 }
