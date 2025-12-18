@@ -7,5 +7,6 @@ RUN cp /works/src.txt /etc/apt/sources.list \
     && apt update \
     && apt install -y awscli vim wget curl apt-transport-https ca-certificates
 
+RUN go env -w GO111MODULE='on' && go env -w GOPROXY='https://goproxy.cn,direct' 
 RUN go build -o app .
 
