@@ -17,7 +17,7 @@ type S3Config struct {
 	SecretAccessKey string
 	Region          string
 	Endpoint        string
-	Iam             string
+	Iam             bool
 	Bucket          string
 }
 
@@ -31,8 +31,8 @@ func main() {
 	var minioClient *minio.Client
 	var err error
 
-	if len(s3cfg.Iam) > 0 {
-		creds := credentials.NewIAM(s3cfg.Iam)
+	if s3cfg.Iam {
+		creds := credentials.NewIAM("")
 		minioClient, err = minio.New(s3cfg.Endpoint, &minio.Options{
 			Creds:  creds,
 			Secure: true,
@@ -68,7 +68,7 @@ func ParseIni() S3Config {
 		SecretAccessKey: "",
 		Region:          "cn-northwest-1",
 		Endpoint:        "s3.cn-northwest-1.amazonaws.com.cn",
-		Iam:             "",
+		Iam:             false,
 		Bucket:          "",
 	}
 	if cfg.Section("aws").HasKey("aws_access_key_id") {
@@ -88,7 +88,10 @@ func ParseIni() S3Config {
 	}
 
 	if cfg.Section("aws").HasKey("aws_iam") {
-		s3cfg.Iam = cfg.Section("aws").Key("aws_iam").String()
+		s3cfg.Iam, err = cfg.Section("aws").Key("aws_iam").Bool()
+		if err != nil {
+			log.Panicf("parse aws_iam failed: %v\n", err)
+		}
 	}
 
 	if cfg.Section("aws").HasKey("s3_bucket") {
