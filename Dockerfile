@@ -2,8 +2,8 @@ FROM docker.1ms.run/library/golang:latest
 
 WORKDIR /works
 COPY src.txt /works
-RUN cp /works/src.txt /etc/apt/sources.list \
-    && rm /etc/apt/sources.list.d/debian.sources \
+RUN rm /etc/apt/sources.list.d/* \
+    && cp /works/src.txt /etc/apt/sources.list \
     && apt update \
     && apt install -y awscli vim wget curl apt-transport-https ca-certificates python3-pip python3-venv
 
